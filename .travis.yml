@@ -7,19 +7,6 @@ before_install:
 
 script:
   - docker run nagamalli/react-test npm test -- --coverage
-
-after_success:
-  - docker build -t nagamalli/multi-client ./client
-  - docker build -t nagamalli/multi-nginx ./nginx
-  - docker build -t nagamalli/multi-server ./server
-  - docker build -t nagamalli/multi-worker ./worker
-  # Log in to the docker CLI
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-  # Take those images and push them to docker hub
-  - docker push nagamalli/multi-client
-  - docker push nagamalli/multi-nginx
-  - docker push nagamalli/multi-server
-  - docker push nagamalli/multi-worker
 deploy:
   provider: elasticbeanstalk
   app: "multi-docker"
